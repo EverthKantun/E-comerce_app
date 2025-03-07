@@ -1,7 +1,26 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'screens/signup.dart';
 
-void main() {
+void main() async {
+  //Base de datos
+  WidgetsFlutterBinding
+      .ensureInitialized(); //garantizar que el sistema de Flutter esté completamente inicializado antes de realizar cualquier operación que dependa de él, especialmente al inicio de una aplicación.
+  if (kIsWeb) {
+    //Si es en web
+    await Firebase.initializeApp(
+        options: FirebaseOptions(
+            apiKey: "AIzaSyB_Nk9liO69KAQjxIwsBUGuDM0NFvFu2Ck",
+            authDomain: "e-commerce-app-1f9ce.firebaseapp.com",
+            projectId: "e-commerce-app-1f9ce",
+            storageBucket: "e-commerce-app-1f9ce.firebasestorage.app",
+            messagingSenderId: "905402683356",
+            appId: "1:905402683356:web:e3963f608e817f9d170919",
+            measurementId: "G-F7LV01MMRB"));
+  } else {
+    await Firebase.initializeApp(); //Se inicia en app
+  }
   runApp(const MyApp());
 }
 
