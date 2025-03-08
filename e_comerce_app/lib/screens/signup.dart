@@ -12,16 +12,17 @@ String p =
     r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
 
 RegExp regExp = RegExp(p);
+bool obserText = true;
 
 class _SignUpState extends State<SignUp> {
-  // void validation() {
-  //   final FormState form = _formKey.currentState;
-  //   if (form.validate()) {
-  //     print("sí");
-  //   } else {
-  //     print("no");
-  //   }
-  // }
+  void validation() {
+    final FormState? form = _formKey.currentState; // Permite valores nulos
+    if (form != null && form.validate()) {
+      print("sí");
+    } else {
+      print("no");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,6 +92,7 @@ class _SignUpState extends State<SignUp> {
                             border: OutlineInputBorder()),
                       ),
                       TextFormField(
+                        obscureText: obserText,
                         validator: (value) {
                           //para validar la longitud de la contraseña
                           if (value == null || value.isEmpty) {
@@ -105,10 +107,16 @@ class _SignUpState extends State<SignUp> {
                             hintText: "Contraseña",
                             suffixIcon: GestureDetector(
                               onTap: () {
+                                setState(() {
+                                  obserText = !obserText;
+                                });
                                 FocusScope.of(context).unfocus();
                               },
-                              child:
-                                  Icon(Icons.visibility, color: Colors.black),
+                              child: Icon(
+                                  obserText == true
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  color: Colors.black),
                             ),
                             hintStyle: TextStyle(color: Colors.black),
                             border: OutlineInputBorder()),
@@ -133,7 +141,7 @@ class _SignUpState extends State<SignUp> {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
-                            // validation();
+                            validation();
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blueGrey[400],
