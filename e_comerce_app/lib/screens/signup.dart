@@ -1,3 +1,4 @@
+import 'package:e_comerce_app/screens/login.dart';
 import 'package:flutter/material.dart';
 
 class SignUp extends StatefulWidget {
@@ -157,6 +158,13 @@ class _SignUpState extends State<SignUp> {
                           Text("Ya tengo una cuenta creada: "),
                           SizedBox(width: 10),
                           GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (ctx) => Login(),
+                                ),
+                              );
+                            },
                             child: Text(
                               "Acceder",
                               style: TextStyle(
