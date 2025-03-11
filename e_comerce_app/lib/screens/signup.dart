@@ -1,6 +1,8 @@
 import 'package:e_comerce_app/screens/login.dart';
 import 'package:e_comerce_app/widgets/changescreen.dart';
 import 'package:e_comerce_app/widgets/mybutton.dart';
+import 'package:e_comerce_app/widgets/mytextformField.dart';
+import 'package:e_comerce_app/widgets/passwordtextformfield.dart';
 import 'package:flutter/material.dart';
 
 class SignUp extends StatefulWidget {
@@ -79,51 +81,39 @@ class _SignUpState extends State<SignUp> {
                             hintStyle: TextStyle(color: Colors.black),
                             border: OutlineInputBorder()),
                       ),
-                      TextFormField(
+                      MyTextFormField(
+                        name: "Email",
                         validator: (String? value) {
-                          // para validar el correo usando regExp que está en la linea 11
+                        // para validar el correo usando regExp que está en la linea 11
                           if (value?.isEmpty ?? true) {
                             return "Coloca un correo";
-                          } else if (!regExp.hasMatch(value!)) {
+                            } else if (!regExp.hasMatch(value!)) {
                             return "Correo inválido";
-                          }
+                            }
                           return null; // Si pasa todas las validaciones, es válido
-                        },
-                        decoration: InputDecoration(
-                            hintText: "Correo electrónico",
-                            hintStyle: TextStyle(color: Colors.black),
-                            border: OutlineInputBorder()),
-                      ),
-                      TextFormField(
-                        obscureText: obserText,
-                        validator: (value) {
-                          //para validar la longitud de la contraseña
-                          if (value == null || value.isEmpty) {
-                            return "Por favor, coloca una contraseña";
-                          }
-                          if (value.length < 8) {
-                            return "La contraseña debe contener al menos 8 caracteres";
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                            hintText: "Contraseña",
-                            suffixIcon: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  obserText = !obserText;
-                                });
-                                FocusScope.of(context).unfocus();
-                              },
-                              child: Icon(
-                                  obserText == true
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                  color: Colors.black),
-                            ),
-                            hintStyle: TextStyle(color: Colors.black),
-                            border: OutlineInputBorder()),
-                      ),
+                      },
+                    ),
+                     PasswordTextFormField(
+                      obserText:obserText,
+                      name:"Contraseña",
+                      validator: (value) {
+                        //para validar la longitud de la contraseña
+                        if (value == null || value.isEmpty) {
+                          return "Por favor, coloca una contraseña";
+                        }
+                        if (value.length < 8) {
+                          return "La contraseña debe contener al menos 8 caracteres";
+                        }
+                        return null;
+                      },
+                      onTap: () {
+                            FocusScope.of(context).unfocus();
+                            setState(() {
+                              obserText = !obserText;
+                            });
+                          },
+                    ),
+                    //TODO:Min 21:48
                       TextFormField(
                         validator: (value) {
                           if (value == null || value.isEmpty) {

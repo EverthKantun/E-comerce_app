@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
+
 class MyTextFormField extends StatelessWidget {
-  bool obserText;
-  final Function validator;
   final String name;
-  MyTextFormField({required this.name,required this.obserText, required this.validator})
-}
-//TODO: CHECK ERRORS!!!
+  final String? Function(String?)? validator; // Se cambió Function por String? Function(String?)?
+
+  const MyTextFormField({
+    super.key,
+    required this.name,
+    required this.validator,
+  });
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-                      obscureText: obserText,
-                      validator: validator,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: name,
-                      ),
-                    );  
+      validator: validator, // Ahora tiene el tipo correcto
+      decoration: InputDecoration(
+        border: OutlineInputBorder(),
+        hintText: name,
+      ),
+    );
+  }
 }

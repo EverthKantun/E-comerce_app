@@ -1,4 +1,6 @@
 import 'package:e_comerce_app/screens/signup.dart';
+import 'package:e_comerce_app/widgets/mytextformField.dart';
+import 'package:e_comerce_app/widgets/passwordtextformfield.dart';
 import 'package:flutter/material.dart';
 import '../widgets/mybutton.dart';
 import '../widgets/changescreen.dart';
@@ -48,7 +50,8 @@ class _LoginState extends State<Login> {
                       style:
                           TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
                     ),
-                    TextFormField(
+                    MyTextFormField(
+                      name: "Email",
                       validator: (String? value) {
                         // para validar el correo usando regExp que está en la linea 11
                         if (value?.isEmpty ?? true) {
@@ -58,13 +61,10 @@ class _LoginState extends State<Login> {
                         }
                         return null; // Si pasa todas las validaciones, es válido
                       },
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: "corre electrónico",
-                          hintStyle: TextStyle(color: Colors.black)),
                     ),
-                    TextFormField(
-                      obscureText: obserText,
+                    PasswordTextFormField(
+                     obserText:obserText,
+                      name:"Contraseña",
                       validator: (value) {
                         //para validar la longitud de la contraseña
                         if (value == null || value.isEmpty) {
@@ -75,27 +75,13 @@ class _LoginState extends State<Login> {
                         }
                         return null;
                       },
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: "contraseña",
-                        suffixIcon: GestureDetector(
-                          onTap: () {
+                      onTap: () {
                             FocusScope.of(context).unfocus();
                             setState(() {
                               obserText = !obserText;
                             });
                           },
-                          child: Icon(
-                            obserText == true
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                            color: Colors.black,
-                          ),
-                        ),
-                        hintStyle: TextStyle(color: Colors.black),
-                      ),
                     ),
-                    //Button
                     MyButton(onPressed:(){
                       validation();
                     },name:"Ingresar"),

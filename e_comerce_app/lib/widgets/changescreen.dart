@@ -6,11 +6,11 @@ class ChangeScreen extends StatelessWidget {
   final String name;
 
   const ChangeScreen({
-    Key? key,
+    super.key,
     required this.name,
     required this.onTap, 
     required this.whichAccount,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
