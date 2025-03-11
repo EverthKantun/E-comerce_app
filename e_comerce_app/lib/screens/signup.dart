@@ -1,4 +1,6 @@
 import 'package:e_comerce_app/screens/login.dart';
+import 'package:e_comerce_app/widgets/changescreen.dart';
+import 'package:e_comerce_app/widgets/mybutton.dart';
 import 'package:flutter/material.dart';
 
 class SignUp extends StatefulWidget {
@@ -137,44 +139,22 @@ class _SignUpState extends State<SignUp> {
                             hintStyle: TextStyle(color: Colors.black),
                             border: OutlineInputBorder()),
                       ),
-                      SizedBox(
-                        height: 45,
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            validation();
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blueGrey[400],
-                          ),
-                          child: Text(
-                            "Registrarme",
-                            style: TextStyle(color: Colors.black),
-                          ),
-                        ),
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Text("Ya tengo una cuenta creada: "),
-                          SizedBox(width: 10),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (ctx) => Login(),
+                      //Button
+                      MyButton(name: "Registrate",onPressed: (){
+                        validation();
+                      },),
+                      ChangeScreen(
+                        name: "Ingresar", 
+                        whichAccount: "Ya tengo una cuenta creada: ",
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (ctx) => Login(),
                                 ),
                               );
-                            },
-                            child: Text(
-                              "Acceder",
-                              style: TextStyle(
-                                  color: Colors.cyan,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          )
-                        ],
-                      )
+
+                        })
+                      
                     ],
                   ),
                 )

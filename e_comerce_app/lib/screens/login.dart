@@ -1,6 +1,7 @@
 import 'package:e_comerce_app/screens/signup.dart';
 import 'package:flutter/material.dart';
-
+import '../widgets/mybutton.dart';
+import '../widgets/changescreen.dart';
 class Login extends StatefulWidget {
   const Login({super.key});
 
@@ -36,7 +37,7 @@ class _LoginState extends State<Login> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Container(
+              SizedBox(
                 height: 400,
                 width: double.infinity,
                 child: Column(
@@ -94,43 +95,17 @@ class _LoginState extends State<Login> {
                         hintStyle: TextStyle(color: Colors.black),
                       ),
                     ),
-                    SizedBox(
-                      height: 50,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          validation();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.cyan[100],
-                          padding: EdgeInsets.zero,
-                        ),
-                        child: Text(
-                          "Ingresar",
-                        ),
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Text("No tengo una cuenta"),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(
+                    //Button
+                    MyButton(onPressed:(){
+                      validation();
+                    },name:"Ingresar"),
+                    ChangeScreen(name:"Registrate", whichAccount:"¡No tengo una cuenta!", onTap:(){
+                      Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (ctx) => SignUp(),
                               ),
                             );
-                          },
-                          child: Text(
-                            "Registrarme",
-                            style: TextStyle(color: Colors.cyan, fontSize: 17),
-                          ),
-                        )
-                      ],
-                    )
+                    })
                   ],
                 ),
               ),
