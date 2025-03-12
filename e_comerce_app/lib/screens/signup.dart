@@ -1,27 +1,28 @@
 import 'package:flutter/material.dart';
 
-class SignUp extends StatefulWidget {
-  const SignUp({super.key});
+// class SignUp extends StatefulWidget {
+//   const SignUp({super.key});
 
-  @override
-  State<SignUp> createState() => _SignUpState();
-}
+//   @override
+//   State<SignUp> createState() => _SignUpState();
+// }
 
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 String p =
     r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
 
 RegExp regExp = RegExp(p);
+bool obserText = true;
 
 class _SignUpState extends State<SignUp> {
-  // void validation() {
-  //   final FormState form = _formKey.currentState;
-  //   if (form.validate()) {
-  //     print("sí");
-  //   } else {
-  //     print("no");
-  //   }
-  // }
+  void validation() {
+    final FormState? form = _formKey.currentState; // Permite valores nulos
+    if (form != null && form.validate()) {
+      print("sí");
+    } else {
+      print("no");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +76,8 @@ class _SignUpState extends State<SignUp> {
                             hintStyle: TextStyle(color: Colors.black),
                             border: OutlineInputBorder()),
                       ),
-                      TextFormField(
+                      MyTextFormField(
+                        name: "Email",
                         validator: (String? value) {
                           // para validar el correo usando regExp que está en la linea 11
                           if (value?.isEmpty ?? true) {
@@ -85,12 +87,10 @@ class _SignUpState extends State<SignUp> {
                           }
                           return null; // Si pasa todas las validaciones, es válido
                         },
-                        decoration: InputDecoration(
-                            hintText: "Correo electrónico",
-                            hintStyle: TextStyle(color: Colors.black),
-                            border: OutlineInputBorder()),
                       ),
-                      TextFormField(
+                      PasswordTextFormField(
+                        obserText: obserText,
+                        name: "Contraseña",
                         validator: (value) {
                           //para validar la longitud de la contraseña
                           if (value == null || value.isEmpty) {
@@ -101,18 +101,14 @@ class _SignUpState extends State<SignUp> {
                           }
                           return null;
                         },
-                        decoration: InputDecoration(
-                            hintText: "Contraseña",
-                            suffixIcon: GestureDetector(
-                              onTap: () {
-                                FocusScope.of(context).unfocus();
-                              },
-                              child:
-                                  Icon(Icons.visibility, color: Colors.black),
-                            ),
-                            hintStyle: TextStyle(color: Colors.black),
-                            border: OutlineInputBorder()),
+                        onTap: () {
+                          FocusScope.of(context).unfocus();
+                          setState(() {
+                            obserText = !obserText;
+                          });
+                        },
                       ),
+                      //TODO:Min 21:48
                       TextFormField(
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -128,37 +124,23 @@ class _SignUpState extends State<SignUp> {
                             hintStyle: TextStyle(color: Colors.black),
                             border: OutlineInputBorder()),
                       ),
-                      SizedBox(
-                        height: 45,
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // validation();
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blueGrey[400],
-                          ),
-                          child: Text(
-                            "Registrarme",
-                            style: TextStyle(color: Colors.black),
-                          ),
-                        ),
+                      //Button
+                      MyButton(
+                        name: "Registrate",
+                        onPressed: () {
+                          validation();
+                        },
                       ),
-                      Row(
-                        children: <Widget>[
-                          Text("Ya tengo una cuenta creada: "),
-                          SizedBox(width: 10),
-                          GestureDetector(
-                            child: Text(
-                              "Acceder",
-                              style: TextStyle(
-                                  color: Colors.cyan,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          )
-                        ],
-                      )
+                      ChangeScreen(
+                          name: "Ingresar",
+                          whichAccount: "Ya tengo una cuenta creada: ",
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (ctx) => Login(),
+                              ),
+                            );
+                          })
                     ],
                   ),
                 )
