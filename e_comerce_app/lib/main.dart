@@ -1,7 +1,26 @@
 import 'package:e_comerce_app/screens/homepage.dart';
+import 'package:e_comerce_app/screens/listproduct.dart';
+import 'package:e_comerce_app/screens/signup.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
+  if (kIsWeb) {
+    Firebase.initializeApp(
+      options: FirebaseOptions(
+          apiKey: "AIzaSyDHiVK7QOpZU33IGJe0nDM4GjCjZJQzAkw",
+          authDomain: "e-commerce-app-a7353.firebaseapp.com",
+          projectId: "e-commerce-app-a7353",
+          storageBucket: "e-commerce-app-a7353.firebasestorage.app",
+          messagingSenderId: "601639133716",
+          appId: "1:601639133716:web:2d219c247828723ab37d01",
+          measurementId: "G-3DFB3QY4DB"),
+    );
+  } else {
+    await Firebase.initializeApp();
+  }
+
   runApp(const MyApp());
 }
 
@@ -12,9 +31,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(),
-      home: HomePage(),
+      home: SignUp(), //Aqui cambiamos para usar la pantalla que queramos
     );
   }
 }
