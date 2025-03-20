@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(),
-      home: SignUp(), //Aqui cambiamos para usar la pantalla que queramos
+      home: HomePage(), //Aqui cambiamos para usar la pantalla que queramos
     );
   }
 }
