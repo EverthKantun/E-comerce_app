@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-//TODO VIDEO7 16:17
 
 class SingleProduct extends StatelessWidget {
   // Propiedades
@@ -22,19 +21,19 @@ class SingleProduct extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Container(
-            height: 230,  // Altura reducida para evitar desbordamiento
+            height: 230,  
             width: 180,
             child: Column(
               children: <Widget>[
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 10),
-                  child: ClipRRect(  // Asegura que la imagen no se desborde
+                  child: ClipRRect( 
                     borderRadius: BorderRadius.circular(10),
                     child: Image.asset(
                       "images/$image",
-                      height: 150,  // Tamaño controlado
+                      height: 150,  
                       width: 160,
-                      fit: BoxFit.cover,  // Evita deformaciones
+                      fit: BoxFit.cover, 
                     ),
                   ),
                 ),
@@ -48,8 +47,8 @@ class SingleProduct extends StatelessWidget {
                 ),
                 Text(
                   name,
-                  maxLines: 1,  // Limita a una línea para evitar desbordamiento
-                  overflow: TextOverflow.ellipsis,  // Muestra "..." si el texto es largo
+                  maxLines: 1,  
+                  overflow: TextOverflow.ellipsis, 
                   style: TextStyle(fontSize: 16),
                 ),
               ],
