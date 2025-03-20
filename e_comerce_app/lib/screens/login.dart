@@ -1,6 +1,6 @@
 import 'package:e_comerce_app/screens/signup.dart';
 import 'package:flutter/material.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 class Login extends StatefulWidget {
   const Login({super.key});
 
@@ -51,7 +51,10 @@ class _LoginState extends State<Login> {
                       validator: (String? value) {
                         // para validar el correo usando regExp que está en la linea 11
                         if (value?.isEmpty ?? true) {
+                          return "Por favor, coloca un correo";
+
                           return "Coloca un correo";
+
                         } else if (!regExp.hasMatch(value!)) {
                           return "Correo inválido";
                         }
