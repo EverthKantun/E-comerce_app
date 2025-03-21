@@ -1,52 +1,8 @@
+import 'package:e_comerce_app/widgets/singleproduct.dart';
 import 'package:flutter/material.dart';
 //TODO VIDEO7 16:17
 class ListProduct extends StatelessWidget {
   const ListProduct({super.key});
-
-  // Mover la función fuera del método build
-  Widget _buildFeaturedProduct({
-    required String name,
-    required double price,
-    required String image,
-  }) {
-    return Card(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Container(
-            height: 250,
-            width: 180,
-            child: Column(
-              children: <Widget>[
-                Container(
-                  height: 190,
-                  width: 160,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("images/$image"),
-                    ),
-                  ),
-                ),
-                Text(
-                  "\$ $price",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xff9b96d6),
-                  ),
-                ),
-                Text(
-                  name,
-                  style: TextStyle(fontSize: 16),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,32 +50,32 @@ class ListProduct extends StatelessWidget {
                     childAspectRatio: 0.8,
                     crossAxisCount: 2,
                     children: <Widget>[
-                      _buildFeaturedProduct(
+                      SingleProduct(
                         image: "man.jpg",
                         price: 30.0,
                         name: "Man Long T-Shirt",
                       ),
-                      _buildFeaturedProduct(
+                      SingleProduct(
                         image: "camera.jpg",
                         price: 30.0,
                         name: "Women white watch",
                       ),
-                      _buildFeaturedProduct(
+                      SingleProduct(
                         image: "bag.jpg",
                         price: 30.0,
                         name: "Women black bag",
                       ),
-                      _buildFeaturedProduct(
+                      SingleProduct(
                         image: "man.jpg",
                         price: 30.0,
                         name: "Man Long T-Shirt",
                       ),
-                      _buildFeaturedProduct(
+                       SingleProduct(
                         image: "camera.jpg",
                         price: 30.0,
                         name: "Women white watch",
                       ),
-                      _buildFeaturedProduct(
+                       SingleProduct(
                         image: "bag.jpg",
                         price: 30.0,
                         name: "Women black bag",

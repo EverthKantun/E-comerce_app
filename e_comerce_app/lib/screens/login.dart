@@ -1,6 +1,5 @@
 import 'package:e_comerce_app/screens/signup.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 class Login extends StatefulWidget {
   const Login({super.key});
 
@@ -36,7 +35,7 @@ class _LoginState extends State<Login> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Container(
+              SizedBox(
                 height: 400,
                 width: double.infinity,
                 child: Column(
