@@ -1,7 +1,8 @@
+import 'package:e_comerce_app/screens/homepage.dart';
 import 'package:flutter/material.dart';
-//TODO VIDEO7 16:17
+
 class ListProduct extends StatelessWidget {
-  const ListProduct({super.key});
+  const ListProduct({super.key, required String name});
 
   // Mover la función fuera del método build
   Widget _buildFeaturedProduct({
@@ -10,6 +11,10 @@ class ListProduct extends StatelessWidget {
     required String image,
   }) {
     return Card(
+      elevation: 4, // Sombra de la tarjeta
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15), // Bordes redondeados
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -22,11 +27,15 @@ class ListProduct extends StatelessWidget {
                   height: 190,
                   width: 160,
                   decoration: BoxDecoration(
+                    borderRadius:
+                        BorderRadius.circular(15), // Bordes redondeados
                     image: DecorationImage(
                       image: AssetImage("images/$image"),
+                      fit: BoxFit.cover, // Ajustar la imagen
                     ),
                   ),
                 ),
+                SizedBox(height: 8), // Espacio entre la imagen y el texto
                 Text(
                   "\$ $price",
                   style: TextStyle(
@@ -54,7 +63,14 @@ class ListProduct extends StatelessWidget {
         backgroundColor: Colors.transparent,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) =>
+                    HomePage(), // Regresar a la página de HomePage al presionar la flecha
+              ),
+            );
+          },
         ),
         actions: <Widget>[
           IconButton(
@@ -69,6 +85,13 @@ class ListProduct extends StatelessWidget {
       ),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 20),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.white, Colors.blue.shade50], // Fondo degradado
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
         child: ListView(
           children: [
             Column(
@@ -76,21 +99,38 @@ class ListProduct extends StatelessWidget {
               children: [
                 Container(
                   height: 50,
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: EdgeInsets.symmetric(horizontal: 16),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text(
+                    children: [
+                      const Text(
                         "Destacado",
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (context) => HomePage(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          "Ver más",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ],
                   ),
                 ),
+                SizedBox(height: 10),
                 SizedBox(
                   height: 700,
                   child: GridView.count(
                     mainAxisSpacing: 10,
+                    crossAxisSpacing: 10, // Espacio entre columnas
                     childAspectRatio: 0.8,
                     crossAxisCount: 2,
                     children: <Widget>[

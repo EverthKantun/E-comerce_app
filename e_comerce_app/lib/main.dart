@@ -1,3 +1,4 @@
+import 'package:e_comerce_app/screens/cartscreen.dart';
 import 'package:e_comerce_app/screens/detailscreen.dart';
 import 'package:e_comerce_app/screens/homepage.dart';
 import 'package:e_comerce_app/screens/listproduct.dart';
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(),
-      home: Detailscreen(), //Aqui cambiamos para usar la pantalla que queramos,
+      home: Cartscreen(),
     );
   }
 }
