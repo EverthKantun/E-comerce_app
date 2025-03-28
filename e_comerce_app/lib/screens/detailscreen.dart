@@ -1,5 +1,6 @@
 import 'package:e_comerce_app/screens/homepage.dart';
 import 'package:flutter/material.dart';
+import 'package:e_comerce_app/screens/cartscreen.dart';
 
 class Detailscreen extends StatefulWidget {
   final String image;
@@ -250,7 +251,13 @@ class _DetailscreenState extends State<Detailscreen> {
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () {
-          // Aquí puedes agregar la lógica para el botón "Pagar"
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) =>
+                  Cartscreen(), // Regresar a la página de HomePage al presionar la flecha
+            ),
+          );
+          //  lógica para el botón "Pagar"
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.red,
@@ -270,6 +277,30 @@ class _DetailscreenState extends State<Detailscreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) =>
+                    HomePage(), // Regresar a la página de HomePage al presionar la flecha
+              ),
+            );
+          },
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.search, color: Colors.black),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: const Icon(Icons.notifications_none, color: Colors.black),
+            onPressed: () {},
+          ),
+        ],
+      ),
       body: Container(
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
