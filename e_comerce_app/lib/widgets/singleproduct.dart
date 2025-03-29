@@ -10,7 +10,7 @@ class SingleProduct extends StatelessWidget {
   const SingleProduct({
     Key? key,
     required this.image,
-    required this.price, 
+    required this.price,
     required this.name,
   }) : super(key: key);
 
@@ -21,19 +21,19 @@ class SingleProduct extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Container(
-            height: 230,  
+            height: 230,
             width: 180,
             child: Column(
               children: <Widget>[
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 10),
-                  child: ClipRRect( 
+                  child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: Image.asset(
-                      "images/$image",
-                      height: 150,  
+                    child: Image.network(
+                      image,
+                      height: 150,
                       width: 160,
-                      fit: BoxFit.cover, 
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
@@ -47,8 +47,8 @@ class SingleProduct extends StatelessWidget {
                 ),
                 Text(
                   name,
-                  maxLines: 1,  
-                  overflow: TextOverflow.ellipsis, 
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(fontSize: 16),
                 ),
               ],

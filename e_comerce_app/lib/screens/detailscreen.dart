@@ -81,7 +81,7 @@ class _DetailscreenState extends State<Detailscreen> {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage(widget.image),
+                  image: NetworkImage(widget.image),
                 ),
               ),
             ),

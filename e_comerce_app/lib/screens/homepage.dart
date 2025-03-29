@@ -1,9 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_comerce_app/screens/cartscreen.dart';
 import 'package:e_comerce_app/screens/detailscreen.dart';
 import 'package:e_comerce_app/screens/listproduct.dart';
 import 'package:e_comerce_app/widgets/singleproduct.dart';
 import 'package:flutter/material.dart';
+import '../model/product.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
@@ -11,6 +13,19 @@ class HomePage extends StatefulWidget {
   @override
   State<HomePage> createState() => _HomePageState();
 }
+
+Product? zapatosdata;
+Product? playeradata;
+Product? mocasindata;
+Product? blusadata;
+Product? correadata;
+Product? bolsadata;
+Product? relojmandata;
+Product? argolladata;
+var mySnapShoot;
+
+Product? celulardata;
+Product? smartwatchdata;
 
 class _HomePageState extends State<HomePage> {
   bool inicioColor = true;
@@ -214,6 +229,7 @@ class _HomePageState extends State<HomePage> {
                   MaterialPageRoute(
                     builder: (context) => ListProduct(
                       name: "Nuevos productos",
+                      snapShot: mySnapShoot,
                     ),
                   ),
                 );
@@ -235,17 +251,17 @@ class _HomePageState extends State<HomePage> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => Detailscreen(
-                      image: "man.jpg",
-                      price: 30.0,
-                      name: "NUEVO",
+                      image: smartwatchdata?.image ?? "man.jpg",
+                      price: smartwatchdata?.price ?? 30.00,
+                      name: smartwatchdata?.name ?? "Nuevecito",
                     ),
                   ),
                 );
               },
               child: SingleProduct(
-                image: "man.jpg",
-                price: 30.0,
-                name: "NUEVO",
+                image: smartwatchdata?.image ?? "man.jpg",
+                price: smartwatchdata?.price ?? 30.00,
+                name: smartwatchdata?.name ?? "Nuevecito",
               ),
             ),
             GestureDetector(
@@ -253,17 +269,17 @@ class _HomePageState extends State<HomePage> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => Detailscreen(
-                      image: "camera.jpg",
-                      price: 30.0,
-                      name: "NUEVO",
+                      image: celulardata?.image ?? "man.jpg",
+                      price: celulardata?.price ?? 30.00,
+                      name: celulardata?.name ?? "Nuevecito",
                     ),
                   ),
                 );
               },
               child: SingleProduct(
-                image: "camera.jpg",
-                price: 30.0,
-                name: "NUEVO",
+                image: celulardata?.image ?? "man.jpg",
+                price: celulardata?.price ?? 30.00,
+                name: celulardata?.name ?? "Nuevecito",
               ),
             ),
           ],
@@ -291,6 +307,7 @@ class _HomePageState extends State<HomePage> {
                     MaterialPageRoute(
                       builder: (context) => ListProduct(
                         name: "Destacado",
+                        snapShot: mySnapShoot,
                       ),
                     ),
                   );
@@ -311,17 +328,17 @@ class _HomePageState extends State<HomePage> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => Detailscreen(
-                      image: "man.jpg",
-                      price: 30.0,
-                      name: "NUEVO",
+                      image: playeradata?.image ?? "man.jpg",
+                      price: playeradata?.price ?? 30.00,
+                      name: playeradata?.name ?? "Nuevecito",
                     ),
                   ),
                 );
               },
               child: SingleProduct(
-                image: "man.jpg",
-                price: 30.0,
-                name: "NUEVO",
+                image: playeradata?.image ?? "man.jpg",
+                price: playeradata?.price ?? 30.00,
+                name: playeradata?.name ?? "Nuevecito",
               ),
             ),
             GestureDetector(
@@ -329,17 +346,17 @@ class _HomePageState extends State<HomePage> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => Detailscreen(
-                      image: "camera.jpg",
-                      price: 30.0,
-                      name: "NUEVO",
+                      image: blusadata?.image ?? "camera.jpg",
+                      price: blusadata?.price ?? 30.00,
+                      name: blusadata?.name ?? "Nuevecito",
                     ),
                   ),
                 );
               },
               child: SingleProduct(
-                image: "camera.jpg",
-                price: 30.0,
-                name: "Nuevo",
+                image: blusadata?.image ?? "man.jpg",
+                price: blusadata?.price ?? 30.00,
+                name: blusadata?.name ?? "Nuevecito",
               ),
             ),
           ],
@@ -376,30 +393,113 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        margin: EdgeInsets.symmetric(horizontal: 20),
-        child: ListView(
-          children: [
-            Container(
-              width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 20),
-                  _buildImageSlider(),
-                  _buildCategory(),
-                  //
-                  const SizedBox(height: 40),
-                  _buildFeatured(),
-                  _buildNewAchives(),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+      body: FutureBuilder(
+          future: FirebaseFirestore.instance
+              .collection("products")
+              .doc("hC1CEb2BqoraHUlR82BD")
+              .collection("featuresproducts")
+              .get(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (snapshot.hasError) {
+              return const Center(child: Text('Error al cargar productos.'));
+            }
+
+            final productDocs = snapshot.data?.docs ?? [];
+
+            if (productDocs.isEmpty) {
+              return const Center(child: Text('No se encontraron productos.'));
+            }
+            mySnapShoot = snapshot;
+            // Asignación correcta de los datos para los productos
+            zapatosdata = Product(
+              image: productDocs[0]["image"],
+              name: productDocs[0]["name"],
+              price: (productDocs[0]["price"] as num)
+                  .toDouble(), // Asegúrate de que el precio sea un número
+            );
+            print(zapatosdata);
+            playeradata = Product(
+              image: productDocs[1]["image"],
+              name: productDocs[1]["name"],
+              price: (productDocs[1]["price"] as num)
+                  .toDouble(), // Asegúrate de que el precio sea un número
+            );
+            print(blusadata);
+            zapatosdata = Product(
+              image: productDocs[3]["image"],
+              name: productDocs[3]["name"],
+              price: (productDocs[3]["price"] as num)
+                  .toDouble(), // Asegúrate de que el precio sea un número
+            );
+            print(blusadata);
+
+            return FutureBuilder(
+                future: FirebaseFirestore.instance
+                    .collection("products")
+                    .doc("hC1CEb2BqoraHUlR82BD")
+                    .collection("newachives")
+                    .get(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  if (snapshot.hasError) {
+                    return const Center(
+                        child: Text('Error al cargar productos.'));
+                  }
+
+                  final productDocs = snapshot.data?.docs ?? [];
+
+                  if (productDocs.isEmpty) {
+                    return const Center(
+                        child: Text('No se encontraron productos.'));
+                  }
+                  mySnapShoot = snapshot;
+                  celulardata = Product(
+                    image: productDocs[0]["image"],
+                    name: productDocs[0]["name"],
+                    price: (productDocs[0]["price"] as num)
+                        .toDouble(), // Asegúrate de que el precio sea un número
+                  );
+                  print(celulardata);
+                  smartwatchdata = Product(
+                    image: productDocs[1]["image"],
+                    name: productDocs[1]["name"],
+                    price: (productDocs[1]["price"] as num)
+                        .toDouble(), // Asegúrate de que el precio sea un número
+                  );
+                  print(smartwatchdata);
+                  return Container(
+                    height: double.infinity,
+                    width: double.infinity,
+                    margin: EdgeInsets.symmetric(horizontal: 20),
+                    child: ListView(
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 20),
+                              _buildImageSlider(),
+                              _buildCategory(),
+                              //
+                              const SizedBox(height: 40),
+                              _buildFeatured(),
+                              _buildNewAchives(),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                });
+          }),
     );
   }
 }

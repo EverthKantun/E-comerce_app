@@ -1,8 +1,14 @@
 import 'package:e_comerce_app/screens/homepage.dart';
+import 'package:e_comerce_app/widgets/singleproduct.dart';
 import 'package:flutter/material.dart';
 
 class ListProduct extends StatelessWidget {
-  const ListProduct({super.key, required String name});
+  final dynamic snapShot;
+  const ListProduct({
+    super.key,
+    required String name,
+    required this.snapShot,
+  });
 
   // Mover la función fuera del método build
   Widget _buildFeaturedProduct({
@@ -128,43 +134,24 @@ class ListProduct extends StatelessWidget {
                 SizedBox(height: 10),
                 SizedBox(
                   height: 700,
-                  child: GridView.count(
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 10, // Espacio entre columnas
-                    childAspectRatio: 0.8,
-                    crossAxisCount: 2,
-                    children: <Widget>[
-                      _buildFeaturedProduct(
-                        image: "man.jpg",
-                        price: 30.0,
-                        name: "Man Long T-Shirt",
-                      ),
-                      _buildFeaturedProduct(
-                        image: "camera.jpg",
-                        price: 30.0,
-                        name: "Women white watch",
-                      ),
-                      _buildFeaturedProduct(
-                        image: "bag.jpg",
-                        price: 30.0,
-                        name: "Women black bag",
-                      ),
-                      _buildFeaturedProduct(
-                        image: "man.jpg",
-                        price: 30.0,
-                        name: "Man Long T-Shirt",
-                      ),
-                      _buildFeaturedProduct(
-                        image: "camera.jpg",
-                        price: 30.0,
-                        name: "Women white watch",
-                      ),
-                      _buildFeaturedProduct(
-                        image: "bag.jpg",
-                        price: 30.0,
-                        name: "Women black bag",
-                      ),
-                    ],
+                  child: GridView.builder(
+                    itemCount: snapShot.data!.docs.length,
+                    itemBuilder: (ctx, index) {
+                      var product = snapShot.data!
+                          .docs[index]; // Accede correctamente a cada documento
+                      return SingleProduct(
+                        image: product["image"] ?? '', // Control de null safety
+                        price: product["price"] ?? 0.0,
+                        name: product["name"] ?? 'Producto sin nombre',
+                      );
+                    },
+                    scrollDirection: Axis.vertical,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.7,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                    ),
                   ),
                 ),
               ],
