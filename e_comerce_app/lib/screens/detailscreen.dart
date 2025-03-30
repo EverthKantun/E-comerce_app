@@ -6,12 +6,14 @@ class Detailscreen extends StatefulWidget {
   final String image;
   final double price;
   final String name;
+  final String description;
 
   const Detailscreen({
     super.key,
     required this.image,
     required this.price,
     required this.name,
+    required this.description,
   });
 
   @override
@@ -21,56 +23,12 @@ class Detailscreen extends StatefulWidget {
 class _DetailscreenState extends State<Detailscreen> {
   int count = 1;
 
-  Widget _buildSizeProduct({required String name}) {
-    return Container(
-      height: 60,
-      width: 60,
-      decoration: BoxDecoration(
-        color: Colors.blue,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black26,
-            blurRadius: 4,
-            offset: Offset(2, 2),
-          ),
-        ],
-      ),
-      child: Center(
-        child: Text(
-          name,
-          style: TextStyle(fontSize: 18, color: Colors.white),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildColorProduct({required Color color}) {
-    return Container(
-      height: 60,
-      width: 60,
-      decoration: BoxDecoration(
-        color: color,
-        shape: BoxShape.circle,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black26,
-            blurRadius: 4,
-            offset: Offset(2, 2),
-          ),
-        ],
-      ),
-    );
-  }
-
-  final myStyle = TextStyle(fontSize: 18, color: Colors.black87);
-
   Widget _buildImage() {
     return Center(
       child: Container(
         width: 200,
         child: Card(
-          elevation: 4,
+          elevation: 8,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
@@ -97,17 +55,19 @@ class _DetailscreenState extends State<Detailscreen> {
       children: [
         Text(
           widget.name,
-          style: myStyle.copyWith(fontWeight: FontWeight.bold, fontSize: 22),
+          style: TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 24, color: Colors.black87),
         ),
         SizedBox(height: 5),
         Text(
-          "\$${widget.price.toStringAsFixed(2)}", // Formato de precio con dos decimales
-          style: myStyle.copyWith(color: Colors.red, fontSize: 20),
+          "\$${widget.price.toStringAsFixed(2)}",
+          style: TextStyle(color: Colors.redAccent, fontSize: 22),
         ),
         SizedBox(height: 10),
         Text(
           "Descripción",
-          style: myStyle.copyWith(fontWeight: FontWeight.bold, fontSize: 18),
+          style: TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black54),
         ),
         SizedBox(height: 5),
       ],
@@ -118,8 +78,8 @@ class _DetailscreenState extends State<Detailscreen> {
     return Container(
       height: 100,
       decoration: BoxDecoration(
-        color: Colors.grey.shade200, // Fondo gris claro
-        borderRadius: BorderRadius.circular(10), // Bordes redondeados
+        color: Colors.grey.shade200,
+        borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
             color: Colors.black26,
@@ -128,12 +88,12 @@ class _DetailscreenState extends State<Detailscreen> {
           ),
         ],
       ),
-      padding: EdgeInsets.all(10), // Espaciado interno
+      padding: EdgeInsets.all(10),
       child: Wrap(
         children: <Widget>[
           Text(
-            "Aquí va la descripción del producto. Proporciona detalles sobre el producto, sus características y beneficios.",
-            style: myStyle.copyWith(fontSize: 16),
+            widget.description,
+            style: TextStyle(fontSize: 16, color: Colors.black87),
           ),
         ],
       ),
@@ -146,7 +106,7 @@ class _DetailscreenState extends State<Detailscreen> {
       children: [
         Text(
           "Talla",
-          style: myStyle.copyWith(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
         ),
         SizedBox(height: 15),
         Container(
@@ -165,13 +125,37 @@ class _DetailscreenState extends State<Detailscreen> {
     );
   }
 
+  Widget _buildSizeProduct({required String name}) {
+    return Container(
+      height: 60,
+      width: 60,
+      decoration: BoxDecoration(
+        color: Colors.blueAccent,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 4,
+            offset: Offset(2, 2),
+          ),
+        ],
+      ),
+      child: Center(
+        child: Text(
+          name,
+          style: TextStyle(fontSize: 18, color: Colors.white),
+        ),
+      ),
+    );
+  }
+
   Widget _buildColorPart() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           "Colores disponibles",
-          style: myStyle.copyWith(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
         ),
         SizedBox(height: 15),
         Container(
@@ -190,20 +174,38 @@ class _DetailscreenState extends State<Detailscreen> {
     );
   }
 
+  Widget _buildColorProduct({required Color color}) {
+    return Container(
+      height: 60,
+      width: 60,
+      decoration: BoxDecoration(
+        color: color,
+        shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 4,
+            offset: Offset(2, 2),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildQuantityPart() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           "Cantidad",
-          style: myStyle.copyWith(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
         ),
         SizedBox(height: 10),
         Container(
           height: 50,
           width: 100,
           decoration: BoxDecoration(
-            color: Colors.blue,
+            color: Colors.blueAccent,
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
@@ -228,7 +230,7 @@ class _DetailscreenState extends State<Detailscreen> {
               ),
               Text(
                 count.toString(),
-                style: myStyle.copyWith(color: Colors.white),
+                style: TextStyle(color: Colors.white, fontSize: 18),
               ),
               GestureDetector(
                 onTap: () {
@@ -253,14 +255,12 @@ class _DetailscreenState extends State<Detailscreen> {
         onPressed: () {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
-              builder: (context) =>
-                  Cartscreen(), // Regresar a la página de HomePage al presionar la flecha
+              builder: (context) => Cartscreen(),
             ),
           );
-          //  lógica para el botón "Pagar"
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.red,
+          backgroundColor: Colors.redAccent,
           padding: EdgeInsets.zero,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
@@ -282,12 +282,7 @@ class _DetailscreenState extends State<Detailscreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) =>
-                    HomePage(), // Regresar a la página de HomePage al presionar la flecha
-              ),
-            );
+            Navigator.of(context).pop();
           },
         ),
         actions: <Widget>[
@@ -319,6 +314,17 @@ class _DetailscreenState extends State<Detailscreen> {
                 SizedBox(height: 20),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black26,
+                        blurRadius: 8,
+                        offset: Offset(0, 4),
+                      ),
+                    ],
+                  ),
                   child: Column(
                     children: [
                       _buildNameToDescriptionPart(),

@@ -6,6 +6,7 @@ import 'package:e_comerce_app/screens/listproduct.dart';
 import 'package:e_comerce_app/widgets/singleproduct.dart';
 import 'package:flutter/material.dart';
 import '../model/product.dart';
+import 'farewellscreen.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
@@ -14,26 +15,84 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-Product? zapatosdata;
-Product? playeradata;
-Product? mocasindata;
-Product? blusadata;
-Product? correadata;
-Product? bolsadata;
-Product? relojmandata;
-Product? argolladata;
-var mySnapShoot;
-
-Product? celulardata;
-Product? smartwatchdata;
-
 class _HomePageState extends State<HomePage> {
+  Product? zapatosdata;
+  Product? blusadata;
+  Product? playeradata;
+  Product? celulardata;
+  Product? smartwatchdata;
+
   bool inicioColor = true;
   bool carritoColor = false;
   bool acercaDeColor = false;
   bool contactoColor = false;
 
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    try {
+      // Cargar productos destacados
+      final featuresSnapshot = await FirebaseFirestore.instance
+          .collection("products")
+          .doc("hC1CEb2BqoraHUlR82BD")
+          .collection("featuresproducts")
+          .get();
+
+      if (featuresSnapshot.docs.isNotEmpty) {
+        zapatosdata = Product(
+          image: featuresSnapshot.docs[0]["image"],
+          name: featuresSnapshot.docs[0]["name"],
+          price: (featuresSnapshot.docs[0]["price"] as num).toDouble(),
+          description: featuresSnapshot.docs[0]["description"],
+        );
+        playeradata = Product(
+          image: featuresSnapshot.docs[1]["image"],
+          name: featuresSnapshot.docs[1]["name"],
+          price: (featuresSnapshot.docs[1]["price"] as num).toDouble(),
+          description: featuresSnapshot.docs[1]["description"],
+        );
+        blusadata = Product(
+          image: featuresSnapshot.docs[2]["image"],
+          name: featuresSnapshot.docs[2]["name"],
+          price: (featuresSnapshot.docs[2]["price"] as num).toDouble(),
+          description: featuresSnapshot.docs[2]["description"],
+        );
+      }
+
+      // Cargar nuevos productos
+      final newAchivesSnapshot = await FirebaseFirestore.instance
+          .collection("products")
+          .doc("hC1CEb2BqoraHUlR82BD")
+          .collection("newachives")
+          .get();
+
+      if (newAchivesSnapshot.docs.isNotEmpty) {
+        celulardata = Product(
+          image: newAchivesSnapshot.docs[0]["image"],
+          name: newAchivesSnapshot.docs[0]["name"],
+          price: (newAchivesSnapshot.docs[0]["price"] as num).toDouble(),
+          description: newAchivesSnapshot.docs[0]["description"],
+        );
+        smartwatchdata = Product(
+          image: newAchivesSnapshot.docs[1]["image"],
+          name: newAchivesSnapshot.docs[1]["name"],
+          price: (newAchivesSnapshot.docs[1]["price"] as num).toDouble(),
+          description: newAchivesSnapshot.docs[1]["description"],
+        );
+      }
+
+      setState(() {}); // Actualiza el estado después de cargar los datos
+    } catch (e) {
+      print("Error al cargar datos: $e");
+      // Aquí puedes mostrar un mensaje de error al usuario si lo deseas
+    }
+  }
 
   Widget _buildMyDrawer() {
     return Drawer(
@@ -75,8 +134,7 @@ class _HomePageState extends State<HomePage> {
               });
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                  builder: (context) =>
-                      Cartscreen(), // Regresar a la página de HomePage al presionar la flecha
+                  builder: (context) => Cartscreen(),
                 ),
               );
             },
@@ -111,7 +169,17 @@ class _HomePageState extends State<HomePage> {
           ),
           ListTile(
             onTap: () {
-              // Aquí puedes agregar la lógica para cerrar sesión
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => FarewellScreen(),
+                ),
+              );
+
+              // Cerrar la aplicación después de un retraso
+              Future.delayed(Duration(seconds: 2), () {
+                // Cierra la aplicación
+                Navigator.of(context).pop(); // Cierra la pantalla de despedida
+              });
             },
             leading: const Icon(Icons.exit_to_app),
             title: const Text("Salir"),
@@ -123,7 +191,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildImageSlider() {
     return Container(
-      height: 200, // Ajusta la altura según sea necesario
+      height: 200,
       child: CarouselSlider(
         options: CarouselOptions(
           height: 200.0,
@@ -148,6 +216,13 @@ class _HomePageState extends State<HomePage> {
                 decoration: BoxDecoration(
                   color: Colors.grey[300],
                   borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 8.0,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
@@ -164,37 +239,126 @@ class _HomePageState extends State<HomePage> {
   Widget _buildCategory() {
     return Column(
       children: [
-        Container(
+        SizedBox(
           height: 50,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: const [
-              Text(
-                "Categoría",
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold,
+              Padding(
+                padding: EdgeInsets.all(10),
+                child: Text(
+                  "Categoría",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
                 ),
               ),
               Text(
-                "Ver más",
+                " ",
                 style: TextStyle(
-                  fontSize: 17,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
+                  color: Colors.blue,
                 ),
               ),
             ],
           ),
         ),
-        const SizedBox(height: 10), // Espacio entre el título y las categorías
+        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _buildCategoryProduct(image: "dress.png", color: 0xff33dcfd),
-            _buildCategoryProduct(image: "shirt.png", color: 0xfff38cdd),
-            _buildCategoryProduct(image: "shoe.png", color: 0xff4ff2af),
-            _buildCategoryProduct(image: "pants.png", color: 0xff74acf7),
-            _buildCategoryProduct(image: "tie.png", color: 0xfffc6c8d),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ListProduct(
+                      name: 'Vestidos',
+                      snapShot: FirebaseFirestore.instance
+                          .collection("category")
+                          .doc("L1BzfTuaygKeQwcLK2yq")
+                          .collection("dress")
+                          .get(),
+                    ),
+                  ),
+                );
+              },
+              child:
+                  _buildCategoryProduct(image: "dress.png", color: 0xff33dcfd),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ListProduct(
+                      name: 'Camisas',
+                      snapShot: FirebaseFirestore.instance
+                          .collection("category")
+                          .doc("L1BzfTuaygKeQwcLK2yq")
+                          .collection("shirts")
+                          .get(),
+                    ),
+                  ),
+                );
+              },
+              child:
+                  _buildCategoryProduct(image: "shirt.png", color: 0xfff38cdd),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ListProduct(
+                      name: 'Zapatos',
+                      snapShot: FirebaseFirestore.instance
+                          .collection("category")
+                          .doc("L1BzfTuaygKeQwcLK2yq")
+                          .collection("shoes")
+                          .get(),
+                    ),
+                  ),
+                );
+              },
+              child:
+                  _buildCategoryProduct(image: "shoe.png", color: 0xff4ff2af),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ListProduct(
+                      name: 'Pantalones',
+                      snapShot: FirebaseFirestore.instance
+                          .collection("category")
+                          .doc("L1BzfTuaygKeQwcLK2yq")
+                          .collection("pant")
+                          .get(),
+                    ),
+                  ),
+                );
+              },
+              child:
+                  _buildCategoryProduct(image: "pants.png", color: 0xff74acf7),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ListProduct(
+                      name: 'Corbatas',
+                      snapShot: FirebaseFirestore.instance
+                          .collection("category")
+                          .doc("L1BzfTuaygKeQwcLK2yq")
+                          .collection("tie")
+                          .get(),
+                    ),
+                  ),
+                );
+              },
+              child: _buildCategoryProduct(image: "tie.png", color: 0xfffc6c8d),
+            ),
           ],
         ),
       ],
@@ -202,13 +366,25 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildCategoryProduct({required String image, required int color}) {
-    return CircleAvatar(
-      maxRadius: 45,
-      backgroundColor: Color(color),
-      child: Image(
-        height: 45,
-        color: Colors.black,
-        image: AssetImage("images/$image"),
+    return Container(
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 4,
+            offset: Offset(2, 2),
+          ),
+        ],
+      ),
+      child: CircleAvatar(
+        maxRadius: 45,
+        backgroundColor: Color(color),
+        child: Image(
+          height: 45,
+          color: Colors.black,
+          image: AssetImage("images/$image"),
+        ),
       ),
     );
   }
@@ -216,33 +392,46 @@ class _HomePageState extends State<HomePage> {
   Widget _buildNewAchives() {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text(
-              "Nuevos productos",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) => ListProduct(
-                      name: "Nuevos productos",
-                      snapShot: mySnapShoot,
-                    ),
-                  ),
-                );
-              },
-              child: const Text(
-                "Ver más",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        const SizedBox(height: 20),
+        Container(
+          height: 50,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(15.30),
+                child: const Text(
+                  "Nuevos Productos",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-          ],
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ListProduct(
+                        name: "Nuevos Productos",
+                        snapShot: FirebaseFirestore.instance
+                            .collection("products")
+                            .doc("hC1CEb2BqoraHUlR82BD")
+                            .collection("newachives")
+                            .get(),
+                      ),
+                    ),
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(15.30),
+                  child: const Text(
+                    "Ver más",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-        const SizedBox(height: 10), // Espacio entre el título y los productos
-        // ✅ Imágenes alineadas de forma uniforme
+        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -254,6 +443,8 @@ class _HomePageState extends State<HomePage> {
                       image: smartwatchdata?.image ?? "man.jpg",
                       price: smartwatchdata?.price ?? 30.00,
                       name: smartwatchdata?.name ?? "Nuevecito",
+                      description: smartwatchdata?.description ??
+                          "Descripción no disponible",
                     ),
                   ),
                 );
@@ -262,6 +453,8 @@ class _HomePageState extends State<HomePage> {
                 image: smartwatchdata?.image ?? "man.jpg",
                 price: smartwatchdata?.price ?? 30.00,
                 name: smartwatchdata?.name ?? "Nuevecito",
+                description:
+                    smartwatchdata?.description ?? "Descripción no disponible",
               ),
             ),
             GestureDetector(
@@ -272,6 +465,8 @@ class _HomePageState extends State<HomePage> {
                       image: celulardata?.image ?? "man.jpg",
                       price: celulardata?.price ?? 30.00,
                       name: celulardata?.name ?? "Nuevecito",
+                      description: celulardata?.description ??
+                          "Descripción no disponible",
                     ),
                   ),
                 );
@@ -280,6 +475,8 @@ class _HomePageState extends State<HomePage> {
                 image: celulardata?.image ?? "man.jpg",
                 price: celulardata?.price ?? 30.00,
                 name: celulardata?.name ?? "Nuevecito",
+                description:
+                    celulardata?.description ?? "Descripción no disponible",
               ),
             ),
           ],
@@ -297,29 +494,40 @@ class _HomePageState extends State<HomePage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                "Destacado",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              Padding(
+                padding: const EdgeInsets.all(15.30),
+                child: const Text(
+                  "Destacados",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
               ),
               GestureDetector(
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => ListProduct(
-                        name: "Destacado",
-                        snapShot: mySnapShoot,
+                        name: "Destacados",
+                        snapShot: FirebaseFirestore.instance
+                            .collection("products")
+                            .doc("hC1CEb2BqoraHUlR82BD")
+                            .collection("featuresproducts")
+                            .get(),
                       ),
                     ),
                   );
                 },
-                child: const Text(
-                  "Ver más",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                child: Padding(
+                  padding: const EdgeInsets.all(15.30),
+                  child: const Text(
+                    "Ver más",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
             ],
           ),
         ),
+        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
@@ -331,6 +539,8 @@ class _HomePageState extends State<HomePage> {
                       image: playeradata?.image ?? "man.jpg",
                       price: playeradata?.price ?? 30.00,
                       name: playeradata?.name ?? "Nuevecito",
+                      description: playeradata?.description ??
+                          "Descripción no disponible",
                     ),
                   ),
                 );
@@ -339,6 +549,8 @@ class _HomePageState extends State<HomePage> {
                 image: playeradata?.image ?? "man.jpg",
                 price: playeradata?.price ?? 30.00,
                 name: playeradata?.name ?? "Nuevecito",
+                description:
+                    playeradata?.description ?? "Descripción no disponible",
               ),
             ),
             GestureDetector(
@@ -349,6 +561,8 @@ class _HomePageState extends State<HomePage> {
                       image: blusadata?.image ?? "camera.jpg",
                       price: blusadata?.price ?? 30.00,
                       name: blusadata?.name ?? "Nuevecito",
+                      description:
+                          blusadata?.description ?? "Descripción no disponible",
                     ),
                   ),
                 );
@@ -357,6 +571,8 @@ class _HomePageState extends State<HomePage> {
                 image: blusadata?.image ?? "man.jpg",
                 price: blusadata?.price ?? 30.00,
                 name: blusadata?.name ?? "Nuevecito",
+                description:
+                    blusadata?.description ?? "Descripción no disponible",
               ),
             ),
           ],
@@ -372,7 +588,7 @@ class _HomePageState extends State<HomePage> {
       drawer: _buildMyDrawer(),
       appBar: AppBar(
         title: const Text(
-          'HomePage',
+          'Inicio',
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
@@ -393,113 +609,17 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: FutureBuilder(
-          future: FirebaseFirestore.instance
-              .collection("products")
-              .doc("hC1CEb2BqoraHUlR82BD")
-              .collection("featuresproducts")
-              .get(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
-
-            if (snapshot.hasError) {
-              return const Center(child: Text('Error al cargar productos.'));
-            }
-
-            final productDocs = snapshot.data?.docs ?? [];
-
-            if (productDocs.isEmpty) {
-              return const Center(child: Text('No se encontraron productos.'));
-            }
-            mySnapShoot = snapshot;
-            // Asignación correcta de los datos para los productos
-            zapatosdata = Product(
-              image: productDocs[0]["image"],
-              name: productDocs[0]["name"],
-              price: (productDocs[0]["price"] as num)
-                  .toDouble(), // Asegúrate de que el precio sea un número
-            );
-            print(zapatosdata);
-            playeradata = Product(
-              image: productDocs[1]["image"],
-              name: productDocs[1]["name"],
-              price: (productDocs[1]["price"] as num)
-                  .toDouble(), // Asegúrate de que el precio sea un número
-            );
-            print(blusadata);
-            zapatosdata = Product(
-              image: productDocs[3]["image"],
-              name: productDocs[3]["name"],
-              price: (productDocs[3]["price"] as num)
-                  .toDouble(), // Asegúrate de que el precio sea un número
-            );
-            print(blusadata);
-
-            return FutureBuilder(
-                future: FirebaseFirestore.instance
-                    .collection("products")
-                    .doc("hC1CEb2BqoraHUlR82BD")
-                    .collection("newachives")
-                    .get(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-
-                  if (snapshot.hasError) {
-                    return const Center(
-                        child: Text('Error al cargar productos.'));
-                  }
-
-                  final productDocs = snapshot.data?.docs ?? [];
-
-                  if (productDocs.isEmpty) {
-                    return const Center(
-                        child: Text('No se encontraron productos.'));
-                  }
-                  mySnapShoot = snapshot;
-                  celulardata = Product(
-                    image: productDocs[0]["image"],
-                    name: productDocs[0]["name"],
-                    price: (productDocs[0]["price"] as num)
-                        .toDouble(), // Asegúrate de que el precio sea un número
-                  );
-                  print(celulardata);
-                  smartwatchdata = Product(
-                    image: productDocs[1]["image"],
-                    name: productDocs[1]["name"],
-                    price: (productDocs[1]["price"] as num)
-                        .toDouble(), // Asegúrate de que el precio sea un número
-                  );
-                  print(smartwatchdata);
-                  return Container(
-                    height: double.infinity,
-                    width: double.infinity,
-                    margin: EdgeInsets.symmetric(horizontal: 20),
-                    child: ListView(
-                      children: [
-                        Container(
-                          width: double.infinity,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(height: 20),
-                              _buildImageSlider(),
-                              _buildCategory(),
-                              //
-                              const SizedBox(height: 40),
-                              _buildFeatured(),
-                              _buildNewAchives(),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                });
-          }),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _buildImageSlider(),
+            _buildCategory(),
+            const SizedBox(height: 40),
+            _buildFeatured(),
+            _buildNewAchives(),
+          ],
+        ),
+      ),
     );
   }
 }

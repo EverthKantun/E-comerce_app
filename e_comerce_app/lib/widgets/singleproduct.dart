@@ -12,6 +12,7 @@ class SingleProduct extends StatelessWidget {
     required this.image,
     required this.price,
     required this.name,
+    required description,
   }) : super(key: key);
 
   @override

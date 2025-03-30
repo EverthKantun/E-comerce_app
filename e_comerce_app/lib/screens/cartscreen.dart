@@ -113,7 +113,7 @@ class _CartscreenState extends State<Cartscreen> {
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         title: Text(
-          'Cart',
+          'Carrito',
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
@@ -123,7 +123,12 @@ class _CartscreenState extends State<Cartscreen> {
             color: Colors.black,
           ),
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) =>
+                    HomePage(), // Regresar a la página de HomePage al presionar la flecha
+              ),
+            );
           },
         ),
         actions: <Widget>[

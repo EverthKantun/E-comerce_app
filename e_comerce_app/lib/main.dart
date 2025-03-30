@@ -21,9 +21,10 @@ void main() async {
           measurementId: "G-3DFB3QY4DB"),
     );
   } else {
+    WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
   }
-
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
