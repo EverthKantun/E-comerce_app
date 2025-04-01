@@ -1,5 +1,3 @@
-import 'package:e_comerce_app/screens/homepage.dart';
-import 'package:e_comerce_app/widgets/singleproduct.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'detailscreen.dart'; // Asegúrate de importar la pantalla de detalles

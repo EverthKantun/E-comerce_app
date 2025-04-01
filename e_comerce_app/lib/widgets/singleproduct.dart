@@ -5,15 +5,16 @@ class SingleProduct extends StatelessWidget {
   final String image;
   final double price;
   final String name;
+  final String description;
 
   // Constructor
   const SingleProduct({
-    Key? key,
+    super.key,
     required this.image,
     required this.price,
     required this.name,
-    required description,
-  }) : super(key: key);
+    required this.description,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class SingleProduct extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Container(
+          SizedBox(
             height: 230,
             width: 180,
             child: Column(

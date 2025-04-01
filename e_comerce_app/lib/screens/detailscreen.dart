@@ -25,7 +25,7 @@ class _DetailscreenState extends State<Detailscreen> {
 
   Widget _buildImage() {
     return Center(
-      child: Container(
+      child: SizedBox(
         width: 200,
         child: Card(
           elevation: 8,
@@ -109,7 +109,7 @@ class _DetailscreenState extends State<Detailscreen> {
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
         ),
         SizedBox(height: 15),
-        Container(
+        SizedBox(
           width: 340,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -158,7 +158,7 @@ class _DetailscreenState extends State<Detailscreen> {
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
         ),
         SizedBox(height: 15),
-        Container(
+        SizedBox(
           width: 340,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -248,7 +248,7 @@ class _DetailscreenState extends State<Detailscreen> {
   }
 
   Widget _buildButtonPart() {
-    return Container(
+    return SizedBox(
       height: 50,
       width: double.infinity,
       child: ElevatedButton(

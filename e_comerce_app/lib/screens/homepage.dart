@@ -9,7 +9,7 @@ import '../model/product.dart';
 import 'farewellscreen.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -190,7 +190,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildImageSlider() {
-    return Container(
+    return SizedBox(
       height: 200,
       child: CarouselSlider(
         options: CarouselOptions(
@@ -393,7 +393,7 @@ class _HomePageState extends State<HomePage> {
     return Column(
       children: [
         const SizedBox(height: 20),
-        Container(
+        SizedBox(
           height: 50,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -489,7 +489,7 @@ class _HomePageState extends State<HomePage> {
     return Column(
       children: [
         const SizedBox(height: 20),
-        Container(
+        SizedBox(
           height: 50,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

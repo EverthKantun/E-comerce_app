@@ -1,6 +1,7 @@
 import 'package:e_comerce_app/screens/signup.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart'; // 🔹 Importación de FirebaseAuth
+
 class Login extends StatefulWidget {
   const Login({super.key});
 
@@ -9,23 +10,36 @@ class Login extends StatefulWidget {
 }
 
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-String p =
-    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-
-RegExp regExp = RegExp(p);
-
-void validation() {
-  final FormState? form = _formKey.currentState; // Permite valores nulos
-  if (form != null && form.validate()) {
-    print("sí");
-  } else {
-    print("no");
-  }
-}
 
 bool obserText = true;
 
 class _LoginState extends State<Login> {
+  final FirebaseAuth _auth = FirebaseAuth.instance; // 🔹 Instancia de FirebaseAuth
+
+  TextEditingController emailController = TextEditingController(); // 🔹 Controlador para el email
+  TextEditingController passwordController = TextEditingController(); // 🔹 Controlador para la contraseña
+
+  // 🔹 Nueva función para autenticar al usuario en Firebase
+  void loginUser() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        await _auth.signInWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+
+        print("Inicio de sesión exitoso");
+
+        Navigator.pushReplacementNamed(context, "/home"); // 🔹 Redirigir tras autenticación
+      } catch (e) {
+        print("Error al iniciar sesión: $e");
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Correo o contraseña incorrectos")), // 🔹 Mensaje de error
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +50,7 @@ class _LoginState extends State<Login> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Container(
+              SizedBox(
                 height: 400,
                 width: double.infinity,
                 child: Column(
@@ -48,27 +62,22 @@ class _LoginState extends State<Login> {
                           TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
                     ),
                     TextFormField(
+                      controller: emailController, // 🔹 Asignado el controlador
                       validator: (String? value) {
-                        // para validar el correo usando regExp que está en la linea 11
                         if (value?.isEmpty ?? true) {
                           return "Por favor, coloca un correo";
-
-                          return "Coloca un correo";
-
-                        } else if (!regExp.hasMatch(value!)) {
-                          return "Correo inválido";
                         }
-                        return null; // Si pasa todas las validaciones, es válido
+                        return null;
                       },
                       decoration: InputDecoration(
                           border: OutlineInputBorder(),
-                          hintText: "corre electrónico",
+                          hintText: "Correo electrónico",
                           hintStyle: TextStyle(color: Colors.black)),
                     ),
                     TextFormField(
+                      controller: passwordController, // 🔹 Asignado el controlador
                       obscureText: obserText,
                       validator: (value) {
-                        //para validar la longitud de la contraseña
                         if (value == null || value.isEmpty) {
                           return "Por favor, coloca una contraseña";
                         }
@@ -79,7 +88,7 @@ class _LoginState extends State<Login> {
                       },
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
-                        hintText: "contraseña",
+                        hintText: "Contraseña",
                         suffixIcon: GestureDetector(
                           onTap: () {
                             FocusScope.of(context).unfocus();
@@ -101,9 +110,7 @@ class _LoginState extends State<Login> {
                       height: 50,
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {
-                          validation();
-                        },
+                        onPressed: loginUser, // 🔹 Llamar a loginUser en vez de validation()
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.cyan[100],
                           padding: EdgeInsets.zero,
