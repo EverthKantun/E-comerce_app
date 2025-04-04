@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+//página que funciona como ventana de despedida
 class FarewellScreen extends StatelessWidget {
   const FarewellScreen({super.key});
 
@@ -19,7 +19,7 @@ class FarewellScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20),
-            CircularProgressIndicator(), // Puedes usar un indicador de carga si lo deseas
+            CircularProgressIndicator(),
           ],
         ),
       ),

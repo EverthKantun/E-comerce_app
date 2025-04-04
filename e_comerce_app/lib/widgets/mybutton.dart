@@ -13,11 +13,12 @@ class MyButton extends StatelessWidget {
       width: double.infinity,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
+          // Se usa `backgroundColor` en lugar de `color`
           backgroundColor:
-              Colors.cyan[100], // Se usa `backgroundColor` en lugar de `color`
+              Colors.cyan[100], 
           padding: EdgeInsets.zero,
         ),
-        onPressed: onPressed, // Ahora usa el tipo correcto
+        onPressed: onPressed, 
         child: Text(name),
       ),
     );

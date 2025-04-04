@@ -1,12 +1,12 @@
 import 'package:e_comerce_app/screens/homepage.dart';
-import 'package:e_comerce_app/screens/login.dart'; // 🔹 Importar la pantalla de Login
+import 'package:e_comerce_app/screens/login.dart'; 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+//Se inicializa Firebase para poder utilizarlo en el programa
   if (kIsWeb) {
     await Firebase.initializeApp(
       options: FirebaseOptions(
@@ -35,10 +35,14 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'E-Commerce App',
       theme: ThemeData(),
-      initialRoute: "/login", // 🔹 Establecer Login como la primera pantalla
+      //Establecer Login como la primera pantalla
+      initialRoute: "/login", 
       routes: {
-        "/login": (context) => const Login(), // 🔹 Agregar ruta para Login
-        "/home": (context) => const HomePage(), // 🔹 Agregar ruta para HomePage
+        //Agregar ruta para Login y para homepage
+        //Esto tiene como objetivo que al iniciar sesión 
+        //la pantalla de login no vuelva a estar disponible
+        "/login": (context) => const Login(), 
+        "/home": (context) => const HomePage(),
       },
     );
   }

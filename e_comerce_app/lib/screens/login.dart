@@ -1,7 +1,9 @@
 import 'package:e_comerce_app/screens/signup.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart'; // 🔹 Importación de FirebaseAuth
+import 'package:firebase_auth/firebase_auth.dart';
 
+//Se crea la pantalla de login para que el usuario pueda acceder a la aplicación
+//Se utilizan la credencial correo electrónico y contraseña para validar al usuario
 class Login extends StatefulWidget {
   const Login({super.key});
 
@@ -19,7 +21,7 @@ class _LoginState extends State<Login> {
   TextEditingController emailController = TextEditingController(); // 🔹 Controlador para el email
   TextEditingController passwordController = TextEditingController(); // 🔹 Controlador para la contraseña
 
-  // 🔹 Nueva función para autenticar al usuario en Firebase
+  //Se autentifica al usuario en Firebase
   void loginUser() async {
     if (_formKey.currentState!.validate()) {
       try {
@@ -29,12 +31,13 @@ class _LoginState extends State<Login> {
         );
 
         print("Inicio de sesión exitoso");
-
-        Navigator.pushReplacementNamed(context, "/home"); // 🔹 Redirigir tras autenticación
+        //Se redirije al usuario tras autenticación
+        Navigator.pushReplacementNamed(context, "/home"); 
       } catch (e) {
+        //Si la contraseña o el correo son incorrectos se lanza un aviso de error
         print("Error al iniciar sesión: $e");
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Correo o contraseña incorrectos")), // 🔹 Mensaje de error
+          SnackBar(content: Text("Correo o contraseña incorrectos")),
         );
       }
     }
@@ -44,6 +47,9 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Form(
+        // Validación del correo electrónico y la contraseña
+        //Ambos tienen que encontrarse en la base de datos de Firebase
+        //El usuario primero debe pasar por la pantalla de sign up
         key: _formKey,
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 15),
@@ -62,7 +68,7 @@ class _LoginState extends State<Login> {
                           TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
                     ),
                     TextFormField(
-                      controller: emailController, // 🔹 Asignado el controlador
+                      controller: emailController, 
                       validator: (String? value) {
                         if (value?.isEmpty ?? true) {
                           return "Por favor, coloca un correo";
@@ -75,7 +81,8 @@ class _LoginState extends State<Login> {
                           hintStyle: TextStyle(color: Colors.black)),
                     ),
                     TextFormField(
-                      controller: passwordController, // 🔹 Asignado el controlador
+                      controller: passwordController,
+                      // Oculta el texto si es verdadero 
                       obscureText: obserText,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -93,11 +100,13 @@ class _LoginState extends State<Login> {
                           onTap: () {
                             FocusScope.of(context).unfocus();
                             setState(() {
+                              // Cambia el estado de visibilidad
                               obserText = !obserText;
                             });
                           },
                           child: Icon(
                             obserText == true
+                            //Icono de visibilidad de la contraseña
                                 ? Icons.visibility
                                 : Icons.visibility_off,
                             color: Colors.black,
@@ -110,7 +119,9 @@ class _LoginState extends State<Login> {
                       height: 50,
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: loginUser, // 🔹 Llamar a loginUser en vez de validation()
+                        //Llama a loginuser al presionar el botón lo que da acceso
+                        //a la Homepage
+                        onPressed: loginUser, 
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.cyan[100],
                           padding: EdgeInsets.zero,
@@ -120,6 +131,8 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                     ),
+                    //Se le da la opción al usuario para ir a la página de sign up 
+                    //para registrarse
                     Row(
                       children: [
                         Text("No tengo una cuenta"),

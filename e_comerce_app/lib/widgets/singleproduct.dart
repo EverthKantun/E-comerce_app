@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+//Widget con la utilidad de contruir las caracteristicas
+//Que mostrará un producto en la HomePage y en la listpage
 class SingleProduct extends StatelessWidget {
   // Propiedades
   final String image;

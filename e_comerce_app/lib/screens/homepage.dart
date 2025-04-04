@@ -7,6 +7,9 @@ import 'package:e_comerce_app/widgets/singleproduct.dart';
 import 'package:flutter/material.dart';
 import '../model/product.dart';
 import 'farewellscreen.dart';
+// Se crea la página HomePage para visualizar los productos de la aplicación
+// Se accede a ella posterior a la validación de credenciales 
+//en la login page 
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -37,7 +40,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _loadData() async {
     try {
-      // Cargar productos destacados
+      // Cargar productos destacados desde la base de datos
       final featuresSnapshot = await FirebaseFirestore.instance
           .collection("products")
           .doc("hC1CEb2BqoraHUlR82BD")
@@ -86,14 +89,13 @@ class _HomePageState extends State<HomePage> {
           description: newAchivesSnapshot.docs[1]["description"],
         );
       }
-
-      setState(() {}); // Actualiza el estado después de cargar los datos
+// Actualiza el estado después de cargar los datos
+      setState(() {}); 
     } catch (e) {
       print("Error al cargar datos: $e");
-      // Aquí puedes mostrar un mensaje de error al usuario si lo deseas
     }
   }
-
+// Pestaña de la HomePage donde se pueden visualizar los datos del usuario
   Widget _buildMyDrawer() {
     return Drawer(
       child: ListView(
@@ -178,7 +180,8 @@ class _HomePageState extends State<HomePage> {
               // Cerrar la aplicación después de un retraso
               Future.delayed(Duration(seconds: 2), () {
                 // Cierra la aplicación
-                Navigator.of(context).pop(); // Cierra la pantalla de despedida
+                // Cierra la pantalla de despedida
+                Navigator.of(context).pop(); 
               });
             },
             leading: const Icon(Icons.exit_to_app),
@@ -188,7 +191,7 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
+//Carrousel de imagenes presentando productos de la página en la HomePage
   Widget _buildImageSlider() {
     return SizedBox(
       height: 200,
@@ -199,11 +202,13 @@ class _HomePageState extends State<HomePage> {
           enlargeCenterPage: true,
           aspectRatio: 16 / 9,
           viewportFraction: 0.8,
+          //Duración de cada imagen en el carrousel
           autoPlayInterval: const Duration(seconds: 3),
           autoPlayAnimationDuration: const Duration(milliseconds: 800),
           autoPlayCurve: Curves.fastOutSlowIn,
         ),
         items: [
+          //Imagenes del carrousel
           "images/man.jpg",
           "images/women.jpg",
           "images/camera.jpg",
@@ -235,7 +240,7 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
+// Se crea un widget para las categorias que aparecen en la HomePage
   Widget _buildCategory() {
     return Column(
       children: [
@@ -275,6 +280,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => ListProduct(
+                      //Se crea la categoria vestidos y se cargan los datos desde la base de datos
                       name: 'Vestidos',
                       snapShot: FirebaseFirestore.instance
                           .collection("category")
@@ -293,6 +299,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => ListProduct(
+                      //Se crea la categoria camisas y se cargan los datos desde la base de datos
                       name: 'Camisas',
                       snapShot: FirebaseFirestore.instance
                           .collection("category")
@@ -311,6 +318,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => ListProduct(
+                      //Se crea la categoria zapatos y se cargan los datos desde la base de datos
                       name: 'Zapatos',
                       snapShot: FirebaseFirestore.instance
                           .collection("category")
@@ -329,6 +337,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => ListProduct(
+                      //Se crea la categoria pantalones y se cargan los datos desde la base de datos
                       name: 'Pantalones',
                       snapShot: FirebaseFirestore.instance
                           .collection("category")
@@ -347,6 +356,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => ListProduct(
+                      //Se crea la categoria corbatas y se cargan los datos desde la base de datos
                       name: 'Corbatas',
                       snapShot: FirebaseFirestore.instance
                           .collection("category")
@@ -364,7 +374,7 @@ class _HomePageState extends State<HomePage> {
       ],
     );
   }
-
+// Esta sección le da forma al contenedor de las categorias que se muestran en la HomePage
   Widget _buildCategoryProduct({required String image, required int color}) {
     return Container(
       decoration: BoxDecoration(
@@ -388,7 +398,7 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
+// Se crea la sección nuevos productos
   Widget _buildNewAchives() {
     return Column(
       children: [
@@ -411,6 +421,7 @@ class _HomePageState extends State<HomePage> {
                     MaterialPageRoute(
                       builder: (context) => ListProduct(
                         name: "Nuevos Productos",
+                        //Se llama a los datos cargados en la base de datos
                         snapShot: FirebaseFirestore.instance
                             .collection("products")
                             .doc("hC1CEb2BqoraHUlR82BD")
@@ -420,6 +431,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   );
                 },
+                //Botón para acceder a la lista de nuevos productos
                 child: Padding(
                   padding: const EdgeInsets.all(15.30),
                   child: const Text(
@@ -432,6 +444,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         const SizedBox(height: 10),
+        //Se crean los contenedores de los productos a mostrar en la HomePage
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -484,7 +497,7 @@ class _HomePageState extends State<HomePage> {
       ],
     );
   }
-
+// Se crean otros contenedores de productos a mostrar en la HomePage
   Widget _buildFeatured() {
     return Column(
       children: [
@@ -580,7 +593,7 @@ class _HomePageState extends State<HomePage> {
       ],
     );
   }
-
+// Se construye el botón para la pestaña de visualización de la cuenta del usuario
   @override
   Widget build(BuildContext context) {
     return Scaffold(

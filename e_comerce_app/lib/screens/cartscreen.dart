@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:e_comerce_app/screens/homepage.dart';
-//TODO: MIN 11:21 VIDEO 11
-
+//Página que nos muestra el carrito de compra. 
 class Cartscreen extends StatefulWidget {
   const Cartscreen({super.key});
 
@@ -125,8 +124,9 @@ class _CartscreenState extends State<Cartscreen> {
           onPressed: () {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
+                // Regresar a la página de HomePage al presionar la flecha
                 builder: (context) =>
-                    HomePage(), // Regresar a la página de HomePage al presionar la flecha
+                    HomePage(), 
               ),
             );
           },

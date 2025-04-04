@@ -5,7 +5,8 @@ import 'package:e_comerce_app/widgets/mytextformField.dart';
 import 'package:e_comerce_app/widgets/passwordtextformfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+//Se crea la pantalla de sign up para que el usuario se registre en la base de datos 
+//y pueda tener acceso a la aplicación 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
 
@@ -15,18 +16,18 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+ // Variables para almacenar los datos del usuario
   String email = "";
   String password = "";
   String name = "";
   String phoneNumber = "";
   bool obserText = true;
-
+  // Patrón de expresión regular para validar el formato del correo electrónico
   final String emailPattern =
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
   final RegExp regExp = RegExp(
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
-
+// Método para validar el formulario y registrar al usuario
   void validation() async {
     final FormState? form = _formKey.currentState;
     if (form == null || !form.validate()) {
@@ -34,6 +35,7 @@ class _SignUpState extends State<SignUp> {
     }
 
     try {
+      //Se crea un usuario en la base de datos de Firebase
       UserCredential result = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
       print("Usuario registrado: ${result.user?.uid}");
@@ -41,7 +43,7 @@ class _SignUpState extends State<SignUp> {
       print("Error: ${e.message}");
     }
   }
-
+ // Método para construir todos los campos de texto del formulario
   Widget _buildAllTextFormField() {
     return SizedBox(
       height: 300,
@@ -70,7 +72,8 @@ class _SignUpState extends State<SignUp> {
             onChanged: (value) {
               setState(() {
                 email = value;
-                print(email); //verificar que si se ingreso el correo
+                 //verificar que si se ingreso el correo
+                print(email);
               });
             },
             validator: (value) {
@@ -88,7 +91,8 @@ class _SignUpState extends State<SignUp> {
             onChanged: (value) {
               setState(() {
                 password = value!;
-                print(password); //verificar que si se ingreso la contraseñaks
+                //verificar que si se ingreso la contraseña
+                print(password); 
               });
               return null;
             },
@@ -101,6 +105,7 @@ class _SignUpState extends State<SignUp> {
               }
               return null;
             },
+            //Se oculta o aparece la contraseña segun haga click el usuario en el ícono
             onTap: () {
               FocusScope.of(context).unfocus();
               setState(() {
@@ -128,7 +133,8 @@ class _SignUpState extends State<SignUp> {
       ),
     );
   }
-
+//Se crea un botón de opción para el usuario por si este ya tiene una cuenta
+//Lo que lo regresa a la pantalla de login
   Widget _buildBottomPart() {
     return Container(
       height: 400,
@@ -157,10 +163,11 @@ class _SignUpState extends State<SignUp> {
       ),
     );
   }
-
+//Crea el título de la pantalla de registro
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // Evita que el contenido se ajuste al teclado
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Form(
@@ -183,7 +190,9 @@ class _SignUpState extends State<SignUp> {
                   ],
                 ),
               ),
+               // Espacio entre el título y la parte inferior
               const SizedBox(height: 20),
+              // Llama al método que construye la parte inferior del formulario
               _buildBottomPart(),
             ],
           ),

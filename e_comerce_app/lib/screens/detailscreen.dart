@@ -1,7 +1,8 @@
 import 'package:e_comerce_app/screens/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:e_comerce_app/screens/cartscreen.dart';
-
+//Esta página es la página principal donde se muestra el producto 
+//Es donde se encuentra la descripción del producto 
 class Detailscreen extends StatefulWidget {
   final String image;
   final double price;

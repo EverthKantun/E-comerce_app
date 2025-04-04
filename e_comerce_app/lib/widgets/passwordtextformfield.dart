@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+//Se construyen las cajas que contendrán el password
 class PasswordTextFormField extends StatelessWidget {
   final bool obserText;
   final String name;
@@ -26,7 +26,7 @@ class PasswordTextFormField extends StatelessWidget {
         border: OutlineInputBorder(),
         hintText: name,
         suffixIcon: GestureDetector(
-          onTap: onTap, // Se corrigió la coma faltante
+          onTap: onTap, 
           child: Icon(
             obserText ? Icons.visibility : Icons.visibility_off,
             color: Colors.black,

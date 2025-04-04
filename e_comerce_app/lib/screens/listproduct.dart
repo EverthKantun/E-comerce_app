@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'detailscreen.dart'; // Asegúrate de importar la pantalla de detalles
-
+import 'detailscreen.dart'; 
+//Página que se crea para visualizar la lista de productos, cada una contenido en 
 class ListProduct extends StatelessWidget {
   final Future<QuerySnapshot> snapShot;
   final String name;
@@ -20,7 +20,8 @@ class ListProduct extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            Navigator.of(context).pop(); // Regresar a la página anterior
+            // Regresar a la página anterior
+            Navigator.of(context).pop(); 
           },
         ),
         actions: <Widget>[
@@ -38,7 +39,8 @@ class ListProduct extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.white, Colors.blue.shade50], // Fondo degradado
+            // Fondo degradado
+            colors: [Colors.white, Colors.blue.shade50], 
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -89,10 +91,11 @@ class ListProduct extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black87),
                           ),
+                          // Regresa a HomePage
                           GestureDetector(
                             onTap: () {
                               Navigator.of(context)
-                                  .pop(); // Regresar a HomePage
+                                  .pop(); 
                             },
                             child: Text(
                               "Ver menos",
@@ -112,17 +115,19 @@ class ListProduct extends StatelessWidget {
                         itemCount: productDocs.length,
                         itemBuilder: (ctx, index) {
                           var product = productDocs[
-                              index]; // Accede correctamente a cada documento
+                              index]; 
+                          // Accede correctamente a cada documento
                           return GestureDetector(
                             onTap: () {
                               Navigator.of(context).push(
+                                //Construcción del recuadro del producto 
                                 MaterialPageRoute(
                                   builder: (context) => Detailscreen(
                                     image: product["image"],
                                     price: (product["price"] as num).toDouble(),
                                     name: product["name"],
                                     description: product["description"] ??
-                                        "Descripción no disponible", // Asegúrate de que la descripción esté en la base de datos
+                                        "Descripción no disponible", 
                                   ),
                                 ),
                               );
@@ -143,11 +148,14 @@ class ListProduct extends StatelessWidget {
                                       child: Image.network(
                                         product["image"] ?? '',
                                         fit: BoxFit
-                                            .cover, // Ajusta la imagen para cubrir el contenedor
+                                        // Ajusta la imagen para cubrir el contenedor
+                                            .cover, 
                                         height:
-                                            150, // Altura fija para las imágenes
+                                        // Altura fija para las imágenes
+                                            150, 
                                         width:
-                                            double.infinity, // Ancho completo
+                                        // Ancho completo
+                                            double.infinity, 
                                       ),
                                     ),
                                   ),
